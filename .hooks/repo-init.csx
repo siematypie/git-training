@@ -2,10 +2,17 @@
 
 
 var developMock = CommandLine.Execute("git branch develop"); //try to create develop branch, otherwise flow init fails
-
-var flowResult = CommandLine.Execute("git flow init -f -d && git config gitflow.branch.master acceptance &&  git config gitflow.branch.develop development", "Initializing Git Flow...");
+var masterMock = CommandLine.Execute("git branch master"); //try to create develop branch, otherwise flow init fails
+var branchesCheckout = CommandLine.Execute("git checkout production && git checkout development && git checkout acceptance"); // to fetch all git flow branches from origin
+if (branchesCheckout.IsError) {
+    return branchesCheckout.ShowOutput();
+}
+var flowResult = CommandLine.Execute("git flow init -f -d && git config gitflow.branch.master acceptance &&  git config gitflow.branch.develop development && git config --add gitflow.multi-hotfix true", "Initializing Git Flow...");
 if (developMock.IsSuccess) { // if branch was created by the script, remove it
     CommandLine.Execute("git branch -d develop");
+}
+if (masterMock.IsSuccess) { // if branch was created by the script, remove it
+    CommandLine.Execute("git branch -d master");
 }
 if (flowResult.IsError) {
     return flowResult.ShowOutput();
@@ -95,6 +102,3 @@ foreach (var hook in hooks) {
 }
 
 Logger.LogSuccess("DONE");
-
-
-
