@@ -1,6 +1,8 @@
 # git-training
 
-Once you clone the repository, please open terminal in the root folder and run following command:
+Once you clone the repository, please open terminal in the root folder and run following commands:
+`dotnet tool restore`
+and 
 `dotnet script .hooks\repo-init.csx`
 
 In this repo, you'll find amazing dutch fairytale called The Boy Who Wanted More Cheese. However, you'll notice that some sentences are missing! Those sentences are in separate files called Sentence_<sentence_number> where number corresponds to the number of missing sentence in the story.
